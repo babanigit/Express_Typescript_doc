@@ -1,3 +1,4 @@
 "use strict";
 console.log("hello ts");
-console.log("hello bro")
+console.log("hello 2");
+console.log("error");
