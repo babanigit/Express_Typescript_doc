@@ -25,8 +25,17 @@ const app: Express = express();
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+// app.use(cors());
 app.enable('trust proxy')
+
+const corsOptions = {
+  origin: "http://localhost:5173", // frontend URI (ReactJS)
+  credentials: true // Allows session cookies to be sent from frontend to backend 
+}
+
+app.use(cors(
+  corsOptions
+  ));
 
 // const dirname = path.resolve();
 
@@ -58,13 +67,6 @@ app.use(session({
 }));
 
 
-// const corsOptions = {
-//   origin: "https://note-management-ovgat0io2-aniket-panchals-projects.vercel.app", // frontend URI (ReactJS)
-//   credentials: true // Allows session cookies to be sent from frontend to backend 
-// }
-// app.use(cors(
-//   corsOptions
-//   ));
 
 
 // routes

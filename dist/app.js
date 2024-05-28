@@ -43,8 +43,13 @@ const app = (0, express_1.default)();
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
-app.use((0, cors_1.default)());
+// app.use(cors());
 app.enable('trust proxy');
+const corsOptions = {
+    origin: "http://localhost:5173", // frontend URI (ReactJS)
+    credentials: true // Allows session cookies to be sent from frontend to backend 
+};
+app.use((0, cors_1.default)(corsOptions));
 // const dirname = path.resolve();
 const dirname = path_1.default.dirname(path_1.default.resolve());
 // const parentDirname = path.dirname(dirname);
@@ -68,13 +73,6 @@ app.use((0, express_session_1.default)({
         mongoUrl: process.env.DATABASE
     })
 }));
-// const corsOptions = {
-//   origin: "https://note-management-ovgat0io2-aniket-panchals-projects.vercel.app", // frontend URI (ReactJS)
-//   credentials: true // Allows session cookies to be sent from frontend to backend 
-// }
-// app.use(cors(
-//   corsOptions
-//   ));
 // routes
 app.use("/api/users", userRoutes_1.default);
 app.use("/api/notes", verifyJwtCookie_1.verifyToken, noteRoutes_1.default);
