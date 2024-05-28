@@ -46,7 +46,7 @@ app.use((0, cookie_parser_1.default)());
 // app.use(cors());
 app.enable('trust proxy');
 const corsOptions = {
-    origin: "http://localhost:5173", // frontend URI (ReactJS)
+    origin: "https://mern-ts-config.vercel.app", // frontend URI (ReactJS)
     credentials: true // Allows session cookies to be sent from frontend to backend 
 };
 app.use((0, cors_1.default)(corsOptions));
