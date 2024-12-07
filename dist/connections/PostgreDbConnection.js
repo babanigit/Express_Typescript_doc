@@ -1,5 +1,4 @@
 "use strict";
-// db.ts
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,20 +12,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const connectMongoDb = () => __awaiter(void 0, void 0, void 0, function* () {
-    const DB = process.env.DATABASEMONGO;
-    if (!DB) {
-        throw new Error("Database connection string is not provided.");
-    }
+exports.query = void 0;
+// db.ts
+const pg_1 = require("pg");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const DB_CONNECTION_STRING = process.env.DATABASEPG;
+if (!DB_CONNECTION_STRING) {
+    throw new Error("Database connection string is not provided.");
+}
+// Create a pool for connection reuse
+const pool = new pg_1.Pool({
+    connectionString: DB_CONNECTION_STRING,
+});
+// Function to query the database
+const query = (text, params) => __awaiter(void 0, void 0, void 0, function* () {
+    const client = yield pool.connect();
     try {
-        const connect = yield mongoose_1.default.connect(DB);
-        console.log("MongoDB Database connected:", connect.connection.host, connect.connection.name);
+        const result = yield client.query(text, params);
+        return result;
     }
     catch (error) {
-        console.error("Failed to connect to the database.");
-        console.error(error);
-        process.exit(1); // Exit the process with failure
+        console.error("Query error:", error);
+        throw error;
+    }
+    finally {
+        client.release(); // Release the client back to the pool
     }
 });
-exports.default = connectMongoDb;
+exports.query = query;

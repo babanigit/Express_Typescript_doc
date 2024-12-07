@@ -14,6 +14,8 @@ dotenv.config({ path: "./.env" });
 
 import noteRoutes from "./dRoutes/noteRoutes";
 import userRouter from "./dRoutes/userRoutes";
+import userPgRouter from "./dRoutes/userPgRoutes";
+
 import { VerifySession } from "./middleware/verifySessionCookie";
 
 import path from 'path';
@@ -62,7 +64,7 @@ app.use(session({
   },
   rolling: true,
   store: MongoStore.create({
-    mongoUrl: process.env.DATABASE
+    mongoUrl: process.env.DATABASEMONGO
   })
 }));
 
@@ -72,6 +74,8 @@ app.use(session({
 // routes
 app.use("/api/users", userRouter)
 app.use("/api/notes", verifyToken, noteRoutes);
+
+app.use("/api/userPg", userPgRouter )
 
 
 // // use the frontend app

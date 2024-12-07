@@ -3,7 +3,7 @@
 import mongoose from "mongoose";
 
 const connectMongoDb = async (): Promise<void> => {
-  const DB: string | undefined = process.env.DATABASE;
+  const DB: string | undefined = process.env.DATABASEMONGO;
 
   if (!DB) {
     throw new Error("Database connection string is not provided.");
@@ -12,7 +12,7 @@ const connectMongoDb = async (): Promise<void> => {
   try {
     const connect = await mongoose.connect(DB);
     console.log(
-      "Database connected:",
+      "MongoDB Database connected:",
       connect.connection.host,
       connect.connection.name
     );

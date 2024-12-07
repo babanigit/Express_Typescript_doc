@@ -47,6 +47,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({ path: "./.env" });
 const noteRoutes_1 = __importDefault(require("./dRoutes/noteRoutes"));
 const userRoutes_1 = __importDefault(require("./dRoutes/userRoutes"));
+const userPgRoutes_1 = __importDefault(require("./dRoutes/userPgRoutes"));
 const path_1 = __importDefault(require("path"));
 const verifyJwtCookie_1 = require("./middleware/verifyJwtCookie");
 const app = (0, express_1.default)();
@@ -80,12 +81,13 @@ app.use((0, express_session_1.default)({
     },
     rolling: true,
     store: connect_mongo_1.default.create({
-        mongoUrl: process.env.DATABASE
+        mongoUrl: process.env.DATABASEMONGO
     })
 }));
 // routes
 app.use("/api/users", userRoutes_1.default);
 app.use("/api/notes", verifyJwtCookie_1.verifyToken, noteRoutes_1.default);
+app.use("/api/userPg", userPgRoutes_1.default);
 // // use the frontend app
 // app.use(express.static(path.join(dirname, "/app/dist")));
 // console.log(dirname)
