@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertIsDefine = void 0;
+exports.assertIsDefine = assertIsDefine;
 function assertIsDefine(str, val) {
     if (!val) {
         console.log("error from assertIsDefine");
@@ -10,4 +10,3 @@ function assertIsDefine(str, val) {
         console.log("assert value of", str, val);
     }
 }
-exports.assertIsDefine = assertIsDefine;

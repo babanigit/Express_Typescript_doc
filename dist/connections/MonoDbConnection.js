@@ -1,5 +1,5 @@
 "use strict";
-// index.ts
+// db.ts
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,18 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const MonoDbConnection_1 = __importDefault(require("./connections/MonoDbConnection"));
-const app_1 = __importDefault(require("./app"));
-const port = process.env.PORT;
-const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
+const mongoose_1 = __importDefault(require("mongoose"));
+const connectMongoDb = () => __awaiter(void 0, void 0, void 0, function* () {
+    const DB = process.env.DATABASE;
+    if (!DB) {
+        throw new Error("Database connection string is not provided.");
+    }
     try {
-        yield (0, MonoDbConnection_1.default)(); // Establish the database connection
-        app_1.default.listen(port, () => {
-            console.log(`[server]: Hello, Server is running at http://localhost:${port}`);
-        });
+        const connect = yield mongoose_1.default.connect(DB);
+        console.log("Database connected:", connect.connection.host, connect.connection.name);
     }
     catch (error) {
-        console.error("Failed to start the server:", error);
+        console.error("Failed to connect to the database.");
+        console.error(error);
+        process.exit(1); // Exit the process with failure
     }
 });
-startServer();
+exports.default = connectMongoDb;
