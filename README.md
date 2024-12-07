@@ -1,3 +1,7 @@
-# demo_pull
-# demo_pull
-# demo_pull
+## Documentation
+
+
+# to create basic package.json 
+``
+npm init -y
+``
