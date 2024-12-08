@@ -2,7 +2,6 @@
 
 import connectMongoDb from "./connections/MonoDbConnection";
 import app from "./app";
-// import connectPostgresDb from "./connections/PostgreDbConnection";
 
 const port = process.env.PORT;
 
@@ -11,7 +10,6 @@ const startServer = async () => {
 
     // Establish the database connection
     // await connectMongoDb();
-    // await connectPostgresDb();
 
     app.listen(port, () => {
       console.log(
